@@ -14,11 +14,14 @@ class ListData extends BaseController {
 
 	public function render()
 	{
-		$content = [];
 		$people = $this->storage->list();
-		foreach ($people as $id => $person) {
-			$content[] = '<a href="'.Details::href(['id' => $id]).'">'.$this->e($person['name']).'</a><br />';
+		foreach ($people as $id => &$person) {
+			$person['link'] = Details::href(['id' => $id]);
 		}
+
+		$t = new Template(__DIR__ . '/../template/ListData.phtml');
+		$content = $t->render(['people' => $people]);
+
 		return $content;
 	}
 

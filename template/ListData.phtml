@@ -1,0 +1,8 @@
+<div class="list-group">
+	<?php foreach ($people as $person):
+		extract($person); ?>
+		<a href="<?= $link ?>" class="list-group-item list-group-item-action">
+			<?= $name ?>
+		</a>
+	<?php endforeach; ?>
+</div>
