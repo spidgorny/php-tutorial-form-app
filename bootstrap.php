@@ -33,3 +33,9 @@ function debug(...$vars)
 	var_dump(sizeof($vars) == 1 ? $vars[0] : $vars);
 	echo '</pre>';
 }
+
+function http_redirect($url)
+{
+	header('Location: '.$url);
+	die;
+}

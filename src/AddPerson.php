@@ -2,13 +2,26 @@
 
 class AddPerson {
 
+	/**
+	 * @var StorageInterface
+	 */
+	protected $storage;
+
+	function __construct(StorageInterface $storage)
+	{
+		$this->storage = $storage;
+	}
+
 	function render()
 	{
+		$content = '';
 		$input = $this->getInput(['name', 'email']);
 		//debug($input);
 		try {
 			$data = $this->validate($input);
-			$content = json_encode($data);
+			//$content = json_encode($data);
+			$this->storage->add($data);
+			http_redirect(ListData::class);
 		} catch (Exception $error) {
 			$form = new Home();
 			$content = $form->render($input + ['error' => $error->getMessage()]);
