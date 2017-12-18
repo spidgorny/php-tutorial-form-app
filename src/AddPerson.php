@@ -4,36 +4,47 @@ class AddPerson {
 
 	function render()
 	{
+		$input = $this->getInput(['name', 'email']);
+		//debug($input);
 		try {
-			$data = $this->validate();
+			$data = $this->validate($input);
 			$content = json_encode($data);
 		} catch (Exception $error) {
 			$form = new Home();
-			$form->error = $error->getMessage();
-			$content = $form->render();
+			$content = $form->render($input + ['error' => $error->getMessage()]);
 		}
 
 		return $content;
 	}
 
+	function getInput(array $fields)
+	{
+		$input = [];
+		foreach ($fields as $f) {
+			$input[$f] = trim(ifsetor($_REQUEST[$f]));
+		}
+		return $input;
+	}
+
 	/**
+	 * @param array $input
+	 *
 	 * @return null
 	 * @throws Exception
 	 */
-	function validate()
+	function validate(array $input)
 	{
-		$name = trim(ifsetor($_REQUEST['name']));
-		$name = filter_var($name, FILTER_SANITIZE_STRING);
-		if (!$name) {
+		$input['name'] = filter_var($input['name'], FILTER_SANITIZE_STRING);
+		if (!$input['name']) {
 			throw new Exception('Please enter a name');
 		}
 
-		$email = trim(ifsetor($_REQUEST['email']));
-		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+		$input['email'] = filter_var($input['email'], FILTER_SANITIZE_EMAIL);
+		if (!$input['email']) {
 			throw new Exception('Please enter a valid email');
 		}
 
-		return null;
+		return $input;
 	}
 
 }
