@@ -35,9 +35,9 @@ class FileStorage implements StorageInterface {
 		$this->save();
 	}
 
-	protected function save()
+	public function save()
 	{
-		file_put_contents($this->filename, json_encode($this->data));
+		file_put_contents($this->filename, json_encode($this->data, JSON_PRETTY_PRINT));
 	}
 
 }

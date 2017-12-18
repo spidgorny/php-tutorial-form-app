@@ -10,4 +10,6 @@ interface StorageInterface {
 
 	public function delete($id);
 
+	public function save();
+
 }

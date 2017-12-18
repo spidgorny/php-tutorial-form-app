@@ -15,7 +15,9 @@ class Router {
 	public function getController()
 	{
 		//debug($_SERVER['PATH_INFO']);
-		$controller = trim(ifsetor($_SERVER['PATH_INFO']), '/') ?: $this->default;
+		$controller = trim(ifsetor($_SERVER['PATH_INFO']), '/');
+		$controller = array_filter(explode('/', $controller));
+		$controller = ifsetor($controller[0]) ?: $this->default;
 		if (class_exists($controller)) {
 			$instance = $this->makeInstanceWithInjection($controller);
 			return $instance;
@@ -28,6 +30,10 @@ class Router {
 		$controller = $this->getController();
 		if ($controller) {
 			$content = $controller->render();
+			if (is_array($content)) {
+				$content = implode(PHP_EOL, $content);
+			}
+			$content = $this->wrapLayout($content);
 		} else {
 			http_response_code(404);
 			$content = '<h1>404 Not Found';
@@ -57,6 +63,12 @@ class Router {
 		}
 		$instance = new $class(...$init);
 		return $instance;
+	}
+
+	function wrapLayout($content)
+	{
+		$layout = new Template(__DIR__.'/../template/layout.phtml');
+		return $layout->render(['content' => $content]);
 	}
 
 }
