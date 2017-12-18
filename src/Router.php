@@ -11,7 +11,8 @@ class Router {
 
 	public function getController()
 	{
-		$controller = ifsetor($_SERVER['PATH_INFO']) ?: $this->default;
+		//debug($_SERVER['PATH_INFO']);
+		$controller = trim(ifsetor($_SERVER['PATH_INFO']), '/') ?: $this->default;
 		if (class_exists($controller)) {
 			$instance = new $controller();
 			return $instance;
