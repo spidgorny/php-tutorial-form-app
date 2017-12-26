@@ -2,6 +2,8 @@
 
 class Template {
 
+	use HTMLHelpers;
+
 	protected $filename;
 
 	function __construct($filename)

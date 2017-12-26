@@ -8,10 +8,7 @@
 
 class BaseController {
 
-	function e($string)
-	{
-		return htmlspecialchars($string, ENT_QUOTES);
-	}
+	use HTMLHelpers;
 
 	static function href(array $params = [])
 	{
