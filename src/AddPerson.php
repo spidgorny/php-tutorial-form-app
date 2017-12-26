@@ -1,6 +1,6 @@
 <?php
 
-class AddPerson {
+class AddPerson extends BaseController {
 
 	/**
 	 * @var StorageInterface
@@ -12,7 +12,12 @@ class AddPerson {
 		$this->storage = $storage;
 	}
 
-	function render()
+	function index()
+	{
+		return $this->showForm();
+	}
+
+	function performAddAction()
 	{
 		$content = '';
 		$input = $this->getInput(['name', 'email']);
@@ -23,10 +28,22 @@ class AddPerson {
 			$this->storage->add($data);
 			http_redirect(ListData::class);
 		} catch (Exception $error) {
-			$form = new Home();
-			$content = $form->render($input + ['error' => $error->getMessage()]);
+			$content = $this->showForm($input + ['error' => $error->getMessage()]);
 		}
 
+		return $content;
+	}
+
+	function showForm(array $placeholders = []) {
+		$heading = 'hello world';
+		$form = new Template(__DIR__.'/../template/form.phtml');
+		$placeholders += [
+			'heading' => $heading,
+			'error' => null,
+			'name' => '',
+			'email' => '',
+		];
+		$content = $form->render($placeholders);
 		return $content;
 	}
 

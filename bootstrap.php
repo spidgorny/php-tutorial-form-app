@@ -36,6 +36,6 @@ function debug(...$vars)
 
 function http_redirect($url)
 {
-	header('Location: '.$url);
+	header('Location: /'.$url);
 	die;
 }

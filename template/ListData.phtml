@@ -1,8 +1,17 @@
-<div class="list-group">
-	<?php foreach ($people as $person):
+<ul class="list-group">
+	<?php foreach ($people as $id => $person):
 		extract($person); ?>
-		<a href="<?= $link ?>" class="list-group-item list-group-item-action">
-			<?= $name ?>
-		</a>
+		<li class="list-group-item">
+			<a href="<?= $link ?>" class="">
+				<?= $this->e($name) ?>
+			</a>
+			<div class="float-right">
+				<form method="post" action="DelPerson">
+					<input type="hidden" name="id" value="<?= $this->e($id) ?>">
+					<button type="submit" class="close" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+					</button>
+				</form>
+			</div>
 	<?php endforeach; ?>
-</div>
+</ul>

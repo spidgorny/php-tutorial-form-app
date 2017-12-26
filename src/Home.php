@@ -1,19 +1,15 @@
 <?php
 
-class Home {
+class Home extends BaseController {
 
-	function render(array $placeholders = [])
+	function index()
 	{
-		$heading = 'hello world';
-		$form = new Template(__DIR__.'/../template/form.phtml');
-		$placeholders += [
-			'heading' => $heading,
-			'error' => null,
-			'name' => '',
-			'email' => '',
-		];
-		$content = $form->render($placeholders);
+		$content = '<a href="'.$this->e(ListData::href()).'">List People</a>';
 		return $content;
+	}
+
+	function sayHiAction() {
+		return 'hi';
 	}
 
 }
